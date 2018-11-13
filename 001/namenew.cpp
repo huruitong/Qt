@@ -6,6 +6,7 @@ nameNew::nameNew(QWidget *parent) :
     ui(new Ui::nameNew)
 {
     ui->setupUi(this);
+
 }
 
 nameNew::~nameNew()

@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <QTime>
 #include <QApplication>
+#include "point.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,14 +21,18 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    void paintTop();
+    void sleep(int);
+    void paintLeft();
+    void paintRight();
     ~MainWindow();
-    void Paint();
+
 
 
 protected:
     void paintEvent(QPaintEvent *){
     QPainter painter(this);
-    painter.drawImage(0,0,image);
+    painter.drawImage(350,30,image);
     }
 
 private slots:
@@ -37,12 +42,6 @@ private:
     Ui::MainWindow *ui;
     QImage image;
 
-    void sleep(unsigned int msec){
-        QTime reachTime = QTime::currentTime().addMSecs(msec);
-        while (QTime::currentTime() < reachTime) {
-            QCoreApplication::processEvents(QEventLoop::AllEvents,100);
-        }
-    }
 
 };
 

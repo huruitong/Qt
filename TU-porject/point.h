@@ -5,12 +5,15 @@ class Point
 {
 public:
     Point();
-    Point(int, int);
-    void setX(int);
-    void setY(int);
-    int getX();
-    int getY();
+    Point(int, int, double);
+    void setTem(int);
+    void setVol(int);
+    void setTime(double);
+    int getTem();
+    int getVol();
+    double getTime();
 private:
-    int x, y;
+    int tem, vol;
+    double time;
 };
 #endif // POINT_H

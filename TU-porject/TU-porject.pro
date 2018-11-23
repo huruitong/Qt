@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     coordinate.cpp \
-    point.cpp
+    point.cpp \
+    point_service.cpp
 
 HEADERS += \
         mainwindow.h \
     coordinate.h \
-    point.h
+    point.h \
+    point_service.h
 
 FORMS += \
         mainwindow.ui

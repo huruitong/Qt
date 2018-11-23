@@ -2,26 +2,33 @@
 
 
 Point::Point() {
-    this->x = this->y = 0;
+
 }
 
-Point::Point(int x, int y) {
-    this->x = x;
-    this->y = y;
+Point::Point(int tem, int vol, double time) {
+    this->tem = tem;
+    this->vol = vol;
+    this->time = time;
 }
 
-int Point::getX() {
-    return this->x;
+int Point::getTem() {
+    return this->tem;
 }
 
-int Point::getY() {
-    return this->y;
+int Point::getVol() {
+    return this->vol;
+}
+double Point::getTime() {
+    return this->time;
 }
 
-void Point::setX(int x) {
-    this->x = x;
+void Point::setTem(int tem) {
+    this->tem = tem;
 }
 
-void Point::setY(int y) {
-    this->y = y;
+void Point::setVol(int vol) {
+    this->vol = vol;
+}
+void Point::setTime(double time) {
+    this->time = time;
 }

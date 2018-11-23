@@ -2,14 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QLineEdit>
 #include <QPainter>
 #include <QTextEdit>
 #include <QPushButton>
-#include <QTimer>
 #include <QTime>
 #include <QApplication>
 #include "point.h"
+#include "coordinate.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,7 +31,9 @@ public:
 protected:
     void paintEvent(QPaintEvent *){
     QPainter painter(this);
-    painter.drawImage(350,30,image);
+    painter.drawImage(350,30,imagetop);
+    painter.drawImage(350,440,imageleft);
+    painter.drawImage(760,440,imageright);
     }
 
 private slots:
@@ -40,8 +41,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QImage image;
-
+    QImage imagetop, imageleft, imageright;
+    Coordinate *cooTop, *cooleft, *cooright;
 
 };
 

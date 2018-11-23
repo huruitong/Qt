@@ -2,25 +2,27 @@
 #include "point.h"
 #include <QImage>
 #include <QPainter>
+#include <QPen>
+#include <QDebug>
 
 Coordinate::Coordinate()
 {
-    Coordinate(new Point(), 0);
+    Coordinate(new QPoint(), 0);
 }
 
-Coordinate::Coordinate(Point *point, int top) {
+Coordinate::Coordinate(QPoint *point, int top) {
     Coordinate(point, top, top, top, top);
 }
 
-Coordinate::Coordinate(Point *point, int top, int right) {
+Coordinate::Coordinate(QPoint *point, int top, int right) {
     Coordinate(point, top, right, top, right);
 }
 
-Coordinate::Coordinate(Point *point, int top, int right, int bottom) {
+Coordinate::Coordinate(QPoint *point, int top, int right, int bottom) {
     Coordinate(point, top, right, bottom, right);
 }
 
-Coordinate::Coordinate(Point *point, int top, int right, int bottom, int left) {
+Coordinate::Coordinate(QPoint *point, int top, int right, int bottom, int left) {
     this->originPoint = point;
     this->top = top;
     this->right = right;
@@ -31,27 +33,23 @@ Coordinate::Coordinate(Point *point, int top, int right, int bottom, int left) {
     this->scaleYdown = 0;
     this->scaleXleft = 0;
 }
-
+// 设置上下左右的刻度数量
 void Coordinate::setScaleXright(int scaleXright) {
     this->scaleXright = scaleXright;
 }
-
 void Coordinate::setScaleXleft(int scaleXleft) {
     this->scaleXleft = scaleXleft;
 }
-
 void Coordinate::setScaleYtop(int scaleYtop) {
      this->scaleYtop = scaleYtop;
 }
-
 void Coordinate::setScaleYdown(int scaleYdown) {
      this->scaleYdown = scaleYdown;
 }
-
+// 设置X，Y轴刻度标注的最大值
 void Coordinate::setScaleXmax(int scaleXmax) {
     this->scaleXmax = scaleXmax;
 }
-
 void Coordinate::setScaleYmax(int scaleYmax) {
     this->scaleYmax = scaleYmax;
 }
@@ -59,18 +57,18 @@ void Coordinate::setScaleYmax(int scaleYmax) {
 void Coordinate::setxName(QString xName) {
     this->xName = xName;
 }
-
 void Coordinate::setyName(QString yName) {
     this->yName = yName;
 }
 
-void Coordinate::drawImage(QImage *qimage){
+// 画坐标系
+void Coordinate::drawCoordinate(QImage *qimage){
 
     QPainter painter(qimage);
 
     painter.setRenderHint(QPainter::Antialiasing, true);// 反锯齿模式。
 
-    int x=originPoint->getX(),y=originPoint->getY();//确定坐标轴起点坐标
+    int x=originPoint->x(),y=originPoint->y();//确定坐标轴起点坐标
 
     int xNumber = (this->scaleXmax)/scaleXright;// 每个x轴的刻度的数字
     int yNumber = (this->scaleYmax)/scaleYtop;
@@ -89,7 +87,7 @@ void Coordinate::drawImage(QImage *qimage){
     for (int i=-scaleYdown-1;i<scaleYtop;i++)
     {
         painter.drawText(x-30,y-(i+0.85)*top/scaleYtop,
-                         QString::number((int)(yNumber*(i+1))));
+                         QString::number((yNumber*(i+1))));
     }
     painter.drawText(x-40,y-top-20,yName);
     // X轴刻度字
@@ -97,7 +95,7 @@ void Coordinate::drawImage(QImage *qimage){
     {
         if (i != -1) { // 设置一点偏移，为了美化
         painter.drawText(x+(i+0.65)*right/scaleXright,
-                         y+20,QString::number((int)((i+1)*xNumber)));
+                         y+20,QString::number((i+1)*xNumber));
         }
     }
     painter.drawText(x+right+30,y+10,xName);
@@ -137,10 +135,10 @@ void Coordinate::drawImage(QImage *qimage){
         }
 
     }
-    //y轴虚线
+    // y轴虚线
     for(int i=-scaleYdown-1;i<scaleYtop;i++)
     {
-        if (i!=-1) { //去除坐标轴的虚线
+        if (i!=-1) { // 去除坐标轴的虚线
             if (top!=0 && right!=0 && scaleYtop!=0) { // 左上
                 painter.drawLine(x,y-(i+1)*(top/scaleYtop),x+right+20,y-(i+1)*(top/scaleYtop));
             } if (right!=0 && bottom!=0 && scaleYdown!=0) { // 左下
@@ -152,4 +150,33 @@ void Coordinate::drawImage(QImage *qimage){
             }
         }
     }
+}
+// 画点
+void Coordinate::drawPoint(QPointF poi,QImage *image) {
+    QPainter painter(image);
+    QPen pen;
+    pen.setColor(Qt::blue);
+    pen.setWidth(3);
+    painter.setPen(pen);
+    painter.drawPoint(poi);
+    qDebug() << poi;
+}
+
+int Coordinate::getOriginPointX() {
+    return this->originPoint->x();
+}
+int Coordinate::getOriginPointY() {
+    return this->originPoint->y();
+}
+int Coordinate::getTop() {
+    return this->top;
+}
+int Coordinate::getRight() {
+    return this->right;
+}
+int Coordinate::getScaleXmax() {
+    return this->scaleXmax;
+}
+int Coordinate::getScaleYmax() {
+    return this->scaleYmax;
 }
